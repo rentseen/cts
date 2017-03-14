@@ -66,9 +66,55 @@
       </div>
       <div class="row">
         <div class="area col-md-6 col-sm-12">
-          <h1 id="resources">Computing Resources</h1>
-          <button id="addResource" onClick="addResource()" type="button" class="btn btn-default btn-sm"><span class="glyphicon glyphicon-plus" aria-hidden="true"></span> Resource</button>
+          <h1 id="VMs">Virtual Machine</h1>
+          <button id="addVM" onClick="addVM()" type="button" class="btn btn-default btn-sm"><span class="glyphicon glyphicon-plus" aria-hidden="true"></span> VM</button>
         </div>
+        <div class="area col-md-6 col-sm-12">
+          <h1 id="DataHosts">Datacenter</h1>
+          <form class="form-inline">
+            <div class="item form-group ">
+              <div>
+                <label  class="control-label">arch</label>
+                <input id="datacenter_arch" type="text" class="form-control">
+              </div>
+              <div>
+                <label  class="control-label">os</label>
+                <input id="datacenter_os" type="text" class="form-control">
+              </div>
+              <div>
+                <label  class="control-label">vmm</label>
+                <input id="datacenter_vmm" type="text" class="form-control">
+              </div>
+              <div>
+                <label  class="control-label">time_zone</label>
+                <input id="datacenter_time_zone" type="text" class="form-control">
+              </div>
+              <div>
+                <label  class="control-label">cost</label>
+                <input id="datacenter_cost" type="text" class="form-control">
+              </div>
+              <div>
+                <label  class="control-label">costPerMem</label>
+                <input id="datacenter_costPerMem" type="text" class="form-control">
+              </div>
+              <div>
+                <label  class="control-label">costPerStorage</label>
+                <input id="datacenter_costPerStorage" type="text" class="form-control">
+              </div>
+              <div>
+                <label  class="control-label">costPerBw</label>
+                <input id="datacenter_costPerBw" type="text" class="form-control">
+              </div>
+              <div>
+                <label  class="control-label">storageList</label>
+                <input id="datacenter_storageList" type="text" class="form-control">
+              </div>
+            </div>
+          </form>
+          <button id="addHost" onClick="addHost()" type="button" class="btn btn-default btn-sm"><span class="glyphicon glyphicon-plus" aria-hidden="true"></span> Host</button>
+        </div>
+      </div>
+      <div class="row">
         <div class="area col-md-6 col-sm-12">
           <h1 id="schedule">Scheduling</h1>
           <button id="execute" onClick="execute()" type="button" class="btn btn-success">Execute</button>
@@ -79,27 +125,6 @@
       </div>
     </div><!-- /.container -->
 
-
-    <!--
-    <div class="col-md-3" role="complementary">
-      <nav class="bs-docs-sidebar hidden-print hidden-xs hidden-sm affix">
-        <ul class="nav bs-docs-sidenav">
-          <li class="">
-            <a href="#tasks">TM</a>
-          </li>
-          <li class="">
-            <a href="#limits">LMC</a>
-          </li>
-          <li class="">
-            <a href="#resources">Computing Resources</a>
-          </li>
-          <li class="">
-            <a href="#schedule">Scheduling</a>
-          </li>
-        </ul>
-      </nav>
-    </div>
-  </div> -->
 
 
 

@@ -1,6 +1,7 @@
 var taskNum=0;
 var limitNum=0;
-var resourceNum=0;
+var VMNum=0;
+var HostNum=0;
 
 var taskAttriNum=new Array();
 var limitAttriNum=new Array();
@@ -34,12 +35,17 @@ function addTask(){
     html=html+'<form class="form-inline">\
       <div class="item form-group ">\
         <select id="task'+(taskNum-1)+'Key'+i+'" class="form-control" onchange="taskOtherClick(this,'+(taskNum-1)+','+i+')">\
-          <option>Select</option>\
-          <option>A</option>\
-          <option>B</option>\
-          <option>C</option>\
-          <option>D</option>\
-          <option>E</option>\
+          <option></option>\
+          <option>cloudletLength</option>\
+          <option>pesNumber</option>\
+          <option>cloudletFileSize</option>\
+          <option>cloudletOutputSize</option>\
+          <option>utilizationModelCpu</option>\
+          <option>utilizationModelRam</option>\
+          <option>utilizationModelBw</option>\
+          <option>record</option>\
+          <option>fatherTaskList</option>\
+          <option>fileList</option>\
           <option>Other</option>\
         </select>\
         <input id="task'+(taskNum-1)+'Attribute'+i+'" type="text" class="form-control attribute-input hide" placeholder="Attribute">\
@@ -79,13 +85,18 @@ function addTaskAttribute(id){
   $("#addTaskAttribute"+id).before('<form class="form-inline">\
     <div class="item form-group ">\
       <select id="task'+(id)+'Key'+taskAttriNum[id]+'" class="form-control" onchange="taskOtherClick(this,'+(id)+','+taskAttriNum[id]+')">\
-        <option>Select</option>\
-        <option>A</option>\
-        <option>B</option>\
-        <option>C</option>\
-        <option>D</option>\
-        <option>E</option>\
-        <option>Other</option>\
+      <option></option>\
+      <option>cloudletLength</option>\
+      <option>pesNumber</option>\
+      <option>cloudletFileSize</option>\
+      <option>cloudletOutputSize</option>\
+      <option>utilizationModelCpu</option>\
+      <option>utilizationModelRam</option>\
+      <option>utilizationModelBw</option>\
+      <option>record</option>\
+      <option>fatherTaskList</option>\
+      <option>fileList</option>\
+      <option>Other</option>\
       </select>\
       <input id="task'+(id)+'Attribute'+taskAttriNum[id]+'" type="text" class="form-control attribute-input hide" placeholder="Attribute">\
       <input id="task'+(id)+'Value'+taskAttriNum[id]+'" type="text" class="form-control" placeholder="Value">\
@@ -165,41 +176,131 @@ function addLimitAttribute(id){
   limitAttriNum[id]++;
 }
 
-function addResource(){
-  var html='<div id="resource'+(resourceNum)+'Container" class="resource">\
-    <h4>resource'+resourceNum+'  <span onClick="removeResource('+(resourceNum)+')" class="glyphicon glyphicon-remove" aria-hidden="true"></span></h4>\
-    <div id="resource'+resourceNum+'" class="item-container">\
+function addVM(){
+  var html='<div id="VM'+(VMNum)+'Container" class="VM">\
+    <h4>VM'+VMNum+'  <span onClick="removeVM('+(VMNum)+')" class="glyphicon glyphicon-remove" aria-hidden="true"></span></h4>\
+    <div id="VM'+VMNum+'" class="item-container">\
       <form class="form-inline">\
         <div class="item form-group ">\
-          <input id="resource'+resourceNum+'time" type="text" class="form-control" placeholder="TIME">\
-          <input id="resource'+resourceNum+'cpu" type="text" class="form-control" placeholder="CPU">\
-          <input id="resource'+resourceNum+'ram" type="text" class="form-control" placeholder="RAM">\
-          <input id="resource'+resourceNum+'storage" type="text" class="form-control" placeholder="STORAGE">\
+          <div>\
+            <label  class="control-label">size</label>\
+            <input id="VM'+VMNum+'size" type="text" class="form-control">\
+          </div>\
+          <div>\
+            <label  class="control-label">ram</label>\
+            <input id="VM'+VMNum+'ram" type="text" class="form-control">\
+          </div>\
+          <div>\
+            <label  class="control-label">mips</label>\
+            <input id="VM'+VMNum+'mips" type="text" class="form-control">\
+          </div>\
+          <div>\
+            <label class="control-label">bw</label>\
+            <input id="VM'+VMNum+'bw" type="text" class="form-control">\
+          </div>\
+          <div>\
+            <label  class="control-label">pesNumber</label>\
+            <input id="VM'+VMNum+'pesNumber" type="text" class="form-control">\
+          </div>\
+          <div>\
+            <label  class="control-label">vmm</label>\
+            <input id="VM'+VMNum+'vmm" type="text" class="form-control">\
+          </div>\
+          <div>\
+            <label  class="control-label">CloudletScheduler</label>\
+            <input id="VM'+VMNum+'CloudletScheduler" type="text" class="form-control">\
+          </div>\
         </div>\
       </form>\
     </div>\
   </div>';
-  $("#addResource").before(html);
-  resourceNum++;
+  $("#addVM").before(html);
+  VMNum++;
 }
 
-function removeResource(i){
-  $("#resource"+i+"Container").remove();
-  for(var j=i+1;j<resourceNum;j++){
-    $("#resource"+j+"Container").attr("id","resource"+(j-1)+"Container");
-    $("#resource"+(j-1)+"Container").children("h4").html('resource'+(j-1)+'  <span onClick="removeResource('+(j-1)+')" class="glyphicon glyphicon-remove" aria-hidden="true"></span>');
-    $("#resource"+j).attr("id","resource"+(j-1));
+function removeVM(i){
+  $("#VM"+i+"Container").remove();
+  for(var j=i+1;j<VMNum;j++){
+    $("#VM"+j+"Container").attr("id","VM"+(j-1)+"Container");
+    $("#VM"+(j-1)+"Container").children("h4").html('VM'+(j-1)+'  <span onClick="removeVM('+(j-1)+')" class="glyphicon glyphicon-remove" aria-hidden="true"></span>');
+    $("#VM"+j).attr("id","VM"+(j-1));
 
-    $("#resource"+(j)+"time").attr("id","resource"+(j-1)+"time");
-    $("#resource"+(j)+"cpu").attr("id","resource"+(j-1)+"cpu");
-    $("#resource"+(j)+"ram").attr("id","resource"+(j-1)+"ram");
-    $("#resource"+(j)+"storage").attr("id","resource"+(j-1)+"storage");
+    $("#VM"+(j)+"size").attr("id","VM"+(j-1)+"size");
+    $("#VM"+(j)+"ram").attr("id","VM"+(j-1)+"ram");
+    $("#VM"+(j)+"mips").attr("id","VM"+(j-1)+"mips");
+    $("#VM"+(j)+"bw").attr("id","VM"+(j-1)+"bw");
+    $("#VM"+(j)+"pesNumber").attr("id","VM"+(j-1)+"pesNumber");
+    $("#VM"+(j)+"vmm").attr("id","VM"+(j-1)+"vmm");
+    $("#VM"+(j)+"CloudletScheduler").attr("id","VM"+(j-1)+"CloudletScheduler");
   }
-  resourceNum--;
+  VMNum--;
+}
+
+function addHost(){
+  var html='<div id="Host'+(HostNum)+'Container" class="Host">\
+    <h4>Host'+HostNum+'  <span onClick="removeHost('+(HostNum)+')" class="glyphicon glyphicon-remove" aria-hidden="true"></span></h4>\
+    <div id="Host'+HostNum+'" class="item-container">\
+      <form class="form-inline">\
+        <div class="item form-group ">\
+          <div>\
+            <label  class="control-label">PE</label>\
+            <input id="Host'+HostNum+'PE" type="text" class="form-control">\
+          </div>\
+          <div>\
+            <label  class="control-label">RamProvisioner</label>\
+            <input id="Host'+HostNum+'RamProvisioner" type="text" class="form-control">\
+          </div>\<div>\
+            <label  class="control-label">BwProvisioner</label>\
+            <input id="Host'+HostNum+'BwProvisioner" type="text" class="form-control">\
+          </div>\<div>\
+            <label  class="control-label">storage</label>\
+            <input id="Host'+HostNum+'storage" type="text" class="form-control">\
+          </div>\<div>\
+            <label  class="control-label">PE</label>\
+            <input id="Host'+HostNum+'VmScheduler" type="text" class="form-control">\
+          </div>\
+        </div>\
+      </form>\
+    </div>\
+  </div>';
+  $("#addHost").before(html);
+  HostNum++;
+}
+
+function removeHost(i){
+  $("#Host"+i+"Container").remove();
+  for(var j=i+1;j<HostNum;j++){
+    $("#Host"+j+"Container").attr("id","Host"+(j-1)+"Container");
+    $("#Host"+(j-1)+"Container").children("h4").html('Host'+(j-1)+'  <span onClick="removeHost('+(j-1)+')" class="glyphicon glyphicon-remove" aria-hidden="true"></span>');
+    $("#Host"+j).attr("id","Host"+(j-1));
+
+    $("#Host"+(j)+"PE").attr("id","Host"+(j-1)+"PE");
+    $("#Host"+(j)+"RamProvisioner").attr("id","Host"+(j-1)+"RamProvisioner");
+    $("#Host"+(j)+"BwProvisioner").attr("id","Host"+(j-1)+"BwProvisioner");
+    $("#Host"+(j)+"storage").attr("id","Host"+(j-1)+"storage");
+    $("#Host"+(j)+"VmScheduler").attr("id","Host"+(j-1)+"VmScheduler");
+  }
+  HostNum--;
 }
 
 function execute(){
-  $("#log").html('Status: success<p>Log: show the result got from algorithm');
+
+  var summary=new Object();
+  summary.Customer=new Array();
+  for(var i=0;i<VMNum;i++){
+    var vm=new Object();
+    vm.ref=""+i;
+    vm.size=$("#VM"+(i)+"size").val();
+    vm.ram=$("#VM"+(i)+"ram").val();
+    vm.mips=$("#VM"+(i)+"mips").val();
+    vm.bw=$("#VM"+(i)+"bw").val();
+    vm.pesNumber=$("#VM"+(i)+"pesNumber").val();
+    vm.vmm=$("#VM"+(i)+"vmm").val();
+    vm.CloudletScheduler=$("#VM"+(i)+"CloudletScheduler").val();
+    summary.Customer.push(vm);
+  }
+  var json = JSON.stringify(summary);
+  $("#log").html(json);
 }
 
 $(document).ready(function(){
