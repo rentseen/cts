@@ -256,7 +256,7 @@ function addHost(){
             <label  class="control-label">storage</label>\
             <input id="Host'+HostNum+'storage" type="text" class="form-control">\
           </div>\<div>\
-            <label  class="control-label">PE</label>\
+            <label  class="control-label">VmScheduler</label>\
             <input id="Host'+HostNum+'VmScheduler" type="text" class="form-control">\
           </div>\
         </div>\
@@ -286,7 +286,7 @@ function removeHost(i){
 function execute(){
 
   var summary=new Object();
-  summary.Customer=new Array();
+  summary.VMs=new Array();
   for(var i=0;i<VMNum;i++){
     var vm=new Object();
     vm.ref=""+i;
@@ -297,8 +297,59 @@ function execute(){
     vm.pesNumber=$("#VM"+(i)+"pesNumber").val();
     vm.vmm=$("#VM"+(i)+"vmm").val();
     vm.CloudletScheduler=$("#VM"+(i)+"CloudletScheduler").val();
-    summary.Customer.push(vm);
+    summary.VMs.push(vm);
   }
+
+  summary.Task=new Object();
+  summary.Task.ref="0";
+  summary.Task.arrivalTime=new Date();
+  summary.Task.deadline="";
+  summary.Task.Subtask=new Array();
+
+  for(var i=0;i<taskNum;i++){
+    var task=new Object();
+    task.ref=""+i;
+    console.log(taskAttriNum[i]);
+    for(var j=0;j<taskAttriNum[i];j++){
+      if($("#task"+i+"Key"+j+" option:selected").text()=="Other"){
+        if($("#task"+i+"Attribute"+j).val()!=""){
+            task[$("#task"+i+"Attribute"+j).val()]=$("#task"+i+"Value"+j).val();
+        }
+
+      }
+      else{
+        if($("#task"+i+"Key"+j+" option:selected").text()!=""){
+          task[$("#task"+i+"Key"+j+" option:selected").text()]=$("#task"+i+"Value"+j).val();
+        }
+      }
+    }
+    summary.Task.Subtask.push(task);
+  }
+
+  summary.Datacenter=new Object();
+  summary.Datacenter.ref="0";
+  summary.Datacenter.arch=$("#datacenter_arch").val();
+  summary.Datacenter.os=$("#datacenter_os").val();
+  summary.Datacenter.vmm=$("#datacenter_vmm").val();
+  summary.Datacenter.time_zone=$("#datacenter_time_zone").val();
+  summary.Datacenter.cost=$("#datacenter_cost").val();
+  summary.Datacenter.costPerMem=$("#datacenter_costPerMem").val();
+  summary.Datacenter.costPerStorage=$("#datacenter_costPerStorage").val();
+  summary.Datacenter.costPerBw=$("#datacenter_costPerBw").val();
+  summary.Datacenter.storageList=$("#datacenter_storageList").val();
+  summary.Datacenter.Host=new Array();
+
+  for(var i=0;i<HostNum;i++){
+    var host=new Object();
+    host.ref=""+i;
+    host.PE=$("#Host"+(i)+"PE").val();
+    host.RamProvisioner=$("#Host"+(i)+"RamProvisioner").val();
+    host.BwProvisioner=$("#Host"+(i)+"BwProvisioner").val();
+    host.storage=$("#Host"+(i)+"storage").val();
+    host.VmScheduler=$("#Host"+(i)+"VmScheduler").val();
+    summary.Datacenter.Host.push(host);
+  }
+
   var json = JSON.stringify(summary);
   $("#log").html(json);
 }
